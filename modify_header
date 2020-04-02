@@ -1,0 +1,50 @@
+#!/bin/bash
+
+
+
+#Deletes items of the list "to_be_removed" from header of patient images
+#Written by: Antonia Harms
+
+
+
+#remove from header
+to_be_removed=(PatientName InstitutionName)
+#(StudyDate SeriesDate AcquisitionDate ContentDate StudyTime SeriesTime AcquisitionTime ContentTime AccessionNumber Modality Manufacturer PerformingPhysicianName InstitutionName InstitutionAddress ReferringPhysicianName StationName StudyDescription InstitutionalDepartmentName PhysiciansOfRecord OperatorsName PatientName PatientBirthDate PatientSex PatientAge PatientSize PatientWeight PregnancyStatus ScanningSequence SequenceVariant ScanOptions AngioFlag DeviceSerialNumber SoftwareVersions ProtocolName TransmitCoilName)
+
+cd $1
+
+#For all patients in directory
+for a in $(find Sequ* -maxdepth 0); do
+
+    echo "currently working on $a"
+    
+    patient=$a
+    
+    
+    for b in $(find $patient/Sequ*/*/*dcm ); do
+    
+        
+       
+#find name of path for image       
+        image=`echo ${b}`
+          
+        if [[ $image == *dcm ]] ; then
+        
+            echo -e "Working on image: ${image}\n";
+            
+            for i in ${to_be_removed[@]};
+            do
+                    echo -e "Deleting line with information about $i from header for patient $patient \n"
+                    position=`dcmdump $image | grep ${i} | awk '{print $1}'`
+                    echo $position
+                    dcmodify -e "$position" $image
+            done 
+        
+        fi
+        
+    done
+    
+    
+    
+    
+done

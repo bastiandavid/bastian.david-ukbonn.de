@@ -1,2 +1,2 @@
-# bastian.david-ukbonn.de
-dcm_deface
+# dcm_deface
+WIP: anonymizing and defacing DICOMs without interfering with original DICOM header

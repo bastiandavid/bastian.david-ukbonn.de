@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+
+Script to create a dicom including the header from a simple array series.
 Created on Thu Apr 2 15:56:30 2020
 
 """
